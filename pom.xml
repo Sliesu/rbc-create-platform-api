@@ -67,6 +67,13 @@
             <version>2.3.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.6.14</version>
+        </dependency>
+
+
         <!-- knife4j API文档 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
@@ -100,6 +107,40 @@
             <groupId>com.cloopen</groupId>
             <artifactId>java-sms-sdk</artifactId>
             <version>1.0.4</version>
+        </dependency>
+
+        <!--HuTool工具-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.27</version>
+        </dependency>
+
+        <!-- zxing生成二维码 -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.3.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.3.3</version>
+        </dependency>
+
+        <!--文件上传-->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.4</version> <!-- Use the latest version -->
+        </dependency>
+
+        <!--servlet-api导入高版本的-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
         </dependency>
     </dependencies>
 

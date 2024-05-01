@@ -4,17 +4,19 @@ import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rbc.zhihu.api.entity.DefaultAvatar;
 import com.rbc.zhihu.api.entity.User;
+import com.rbc.zhihu.api.entity.dto.UserLoginDto;
+import com.rbc.zhihu.api.entity.vo.UserVO;
 import com.rbc.zhihu.api.mapper.DefaultAvatarMapper;
 import com.rbc.zhihu.api.mapper.UserMapper;
+import com.rbc.zhihu.api.service.CommonService;
 import com.rbc.zhihu.api.service.UserService;
-import com.rbc.zhihu.api.utils.OssTemplate;
+import com.rbc.zhihu.api.utils.JwtUtil;
 import jakarta.annotation.Resource;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -28,7 +30,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Resource
-    private OssTemplate ossTemplate;
+    private CommonService commonService;
 
     @Resource
     private DefaultAvatarMapper defaultAvatarMapper;
@@ -57,12 +59,7 @@ public class UserServiceImpl implements UserService {
     public String updateUserAvatar(Integer userId, MultipartFile file) {
         try{
             // 对上传的文件重命名
-            String oldFileName = file.getOriginalFilename();
-            assert oldFileName != null;
-            int index = oldFileName.lastIndexOf(".");
-            String suffixName = oldFileName.substring(index);
-            String newFileName = UUID.randomUUID() + suffixName;
-            String url = ossTemplate.ossUpload(file,"images/avatar/"+newFileName);
+            String url = commonService.upload(file);
             userMapper.updateById(new User().setId(userId).setAvatarUrl(url));
             return url;
         } catch (Exception e){
@@ -95,6 +92,36 @@ public class UserServiceImpl implements UserService {
             jsonObject.put("user",user);
         }
         return jsonObject;
+    }
+
+    /**
+     * 用户登录
+     * @param userLoginDto 用户登录信息
+     * @return jsonObject 返回用户信息
+     */
+    @Override
+    public JSONObject login(UserLoginDto userLoginDto) {
+        if (userLoginDto.getId() == null || userLoginDto.getPassword() == null) {
+            throw new RuntimeException("用户名或密码不能为空");
+        }
+        try {
+            User getUser = this.queryUser(userLoginDto.getId());
+            if(!Objects.equals(userLoginDto.getPassword(), getUser.getPassword())) {
+                throw new RuntimeException("登录失败，检查登录账号或密码");
+            }
+            // 查询成功后，返回查询到的用户信息
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("user", getUser);
+            UserVO user = new UserVO();
+            BeanUtils.copyProperties(getUser, user);
+            jsonObject.put("token", JwtUtil.createToken(getUser.getId(), getUser.getUsername()));
+            return jsonObject;
+
+        } catch (Exception e) {
+            // 返回查询用户失败的错误信息
+            throw new RuntimeException("查询用户失败");
+        }
+
     }
 }
 

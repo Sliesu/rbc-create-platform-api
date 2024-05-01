@@ -6,8 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 /**
- * @author mqxu
- * @description OssConfig
+ * @program: spring-boot-learning
+ * @description:
+ * @author: ytq
+ * @create: 2024-04-29 21:01
  **/
 @Configuration
 @PropertySource("classpath:aliyun-oss.properties")
@@ -15,9 +17,9 @@ import org.springframework.context.annotation.PropertySource;
 @Data
 public class OssConfig {
     private String endpoint;
-    private String bucket;
+    private String accessKeyId;
+    private String accessKeySecret;
+    private String bucketName;
     private String dir;
     private String host;
-    private String ak;
-    private String secret;
 }

@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 /**
  * 默认头像实体类
+ * @author DingYihang
  */
 @Data
 @Accessors(chain = true)

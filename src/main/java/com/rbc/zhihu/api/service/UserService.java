@@ -2,6 +2,7 @@ package com.rbc.zhihu.api.service;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.rbc.zhihu.api.entity.User;
+import com.rbc.zhihu.api.entity.dto.UserLoginDto;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -9,16 +10,18 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface UserService {
 
-    public void addUser(User user);
+    void addUser(User user);
 
-    public Integer deleteUser(Integer id);
+    Integer deleteUser(Integer id);
 
-    public void updateUser(User user);
+    void updateUser(User user);
 
-    public User queryUser(Integer id);
+    User queryUser(Integer id);
 
     String updateUserAvatar(Integer userId, MultipartFile file);
 
-    public JSONObject loginByPhone(String phone);
+    JSONObject loginByPhone(String phone);
+
+    JSONObject login(UserLoginDto userLoginDto);
 
 }

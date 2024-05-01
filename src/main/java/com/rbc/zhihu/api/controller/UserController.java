@@ -1,12 +1,13 @@
 package com.rbc.zhihu.api.controller;
 
-
 import com.alibaba.fastjson2.JSONObject;
 import com.rbc.zhihu.api.common.ResponseResult;
 import com.rbc.zhihu.api.entity.User;
+import com.rbc.zhihu.api.entity.dto.UserLoginDto;
 import com.rbc.zhihu.api.result.Result;
 import com.rbc.zhihu.api.service.AuthService;
 import com.rbc.zhihu.api.service.UserService;
+import com.rbc.zhihu.api.utils.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -28,6 +29,9 @@ public class UserController {
 
     @Resource
     private AuthService authService;
+
+    @Resource
+    private JwtUtil jwtUtil;
     /**
      * 添加用户
      * @param user 用户信息
@@ -102,31 +106,19 @@ public class UserController {
 
     /**
      * 用户登录接口
-     * @param id 用户id
-     * @param password 用户密码
+     * @param userLoginInfo 用户信息
      * @return ResponseResult 返回体
      */
     @Operation(summary = "用户登录")
-    @GetMapping("/login")
-    public ResponseResult login(@RequestParam("id") Integer id,@RequestParam("password") String password) {
-        if (id == null || password == null) {
-            return ResponseResult.error("用户ID或密码不能为空!");
-        }
+    @PostMapping("/login")
+    public ResponseResult login(@RequestBody UserLoginDto userLoginInfo) {
+        JSONObject jsonObject = null;
         try {
-            User getUser = userService.queryUser(id);
-
-            if(!Objects.equals(password, getUser.getPassword())) {
-                return ResponseResult.error("用户名或密码错误!");
-            }
-            // 查询成功后，返回查询到的用户信息
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("user", getUser);
-            return ResponseResult.ok(jsonObject);
-
+            jsonObject = userService.login(userLoginInfo);
         } catch (Exception e) {
-            // 返回查询用户失败的错误信息
-            return ResponseResult.error("查询用户失败!");
+            throw new RuntimeException(e);
         }
+        return ResponseResult.ok(jsonObject);
     }
 
     /**
@@ -182,7 +174,7 @@ public class UserController {
      * @return ResponseResult 返回体
      */
     @Operation(summary = "手机验证码登录")
-    @PostMapping("/message-login")
+    @PostMapping("/login/message")
     public Result<JSONObject> loginByPhone(@RequestParam("phone") String phone, @RequestParam("code") String code) {
         try {
             authService.loginByPhone(phone, code);

@@ -7,6 +7,9 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+# 配置Spring MVC静态资源
+  mvc:
+    static-path-pattern: /static/**
 
   # Redis 配置
   data:
@@ -62,4 +65,16 @@ server:
 
 
 
+rbc:
+  sms:
+    ccp:
+      serveIP: app.cloopen.com
+      port: 8883
+      accountSId: 2c94811c8cd4da0a018f047871856ab5
+      accountToken: b84ebec7313344378e8e3f02e7bd6616
+      appID: 2c94811c8cd4da0a018f047873166abc
+      templateId: 1 # 短信模板ID
 
+
+fileTemp:
+  url: "C:\\Users\\DingYihang\\Pictures"
