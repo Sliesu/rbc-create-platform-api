@@ -1,9 +1,6 @@
 package com.rbc.zhihu.api.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -21,6 +18,7 @@ public class Image implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
     /**原始图片名*/
     @ApiModelProperty(value = "原始图片名")
     @TableField("original_name")
@@ -39,11 +37,26 @@ public class Image implements Serializable {
     /**图片的类型*/
     @ApiModelProperty(value = "图片的类型")
     @TableField("type")
-    private Integer type;
+    private String type;
 
     /**图片上传路径*/
     @ApiModelProperty(value = "图片上传路径")
     @TableField("url")
     private String url;
+
+    /**图片的描述信息*/
+    @ApiModelProperty(value = "图片的描述信息")
+    @TableField("info")
+    private String info;
+
+    /**图片的标题*/
+    @ApiModelProperty(value = "图片的标题")
+    @TableField("title")
+    private String title;
+
+    /**1、删除 0、未删除*/
+    @TableField("deleted")
+    @TableLogic
+    private Integer deleted;
 
 }

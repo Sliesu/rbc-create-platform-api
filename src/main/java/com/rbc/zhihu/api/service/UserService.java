@@ -24,4 +24,5 @@ public interface UserService {
 
     JSONObject login(UserLoginDto userLoginDto);
 
+    boolean updatePassword(String userId, String oldPassword, String newPassword);
 }

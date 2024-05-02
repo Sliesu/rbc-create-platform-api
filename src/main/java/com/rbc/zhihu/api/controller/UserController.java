@@ -11,6 +11,9 @@ import com.rbc.zhihu.api.utils.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +22,7 @@ import java.util.Objects;
 /**
  * @author DingYihang
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/user")
 @Tag(name = "用户接口")
@@ -30,8 +34,6 @@ public class UserController {
     @Resource
     private AuthService authService;
 
-    @Resource
-    private JwtUtil jwtUtil;
     /**
      * 添加用户
      * @param user 用户信息
@@ -182,5 +184,26 @@ public class UserController {
             throw new RuntimeException(e);
         }
         return Result.ok(userService.loginByPhone(phone));
+    }
+
+
+    /**
+     * 修改密码
+     * @param oldPaw 旧密码
+     * @param newPsw 新密码
+     * @return ResponseResult 返回体
+     */
+    @Operation(summary = "修改密码")
+    @PostMapping("/upload-password")
+    public Result<String> loginByPhone(@RequestParam("oldPaw") String oldPaw,@RequestParam("newPsw") String newPsw, HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        cn.hutool.json.JSONObject tokenPayload = JwtUtil.getPayload(token);
+        String userId = tokenPayload.getStr("userId");
+        boolean success = userService.updatePassword(userId, oldPaw,newPsw);
+        if(success){
+            return Result.ok("密码修改成功");
+        } else {
+            return Result.error("密码修改失败");
+        }
     }
 }

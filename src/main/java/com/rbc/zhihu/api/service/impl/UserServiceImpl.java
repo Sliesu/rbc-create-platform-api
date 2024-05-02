@@ -123,5 +123,24 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+    /**
+     * 修改密码
+     * @param userId 用户id
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return ResponseResult 返回体
+     */
+    @Override
+    public boolean updatePassword(String userId, String oldPassword, String newPassword) {
+        User getUser = userMapper.selectById(userId);
+        if(!Objects.equals(oldPassword, getUser.getPassword())) {
+            throw new RuntimeException("旧密码错误");
+        }else{
+            getUser.setPassword(newPassword);
+            userMapper.updateById(getUser);
+            return true;
+        }
+    }
 }
 
