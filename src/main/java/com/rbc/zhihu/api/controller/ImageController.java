@@ -30,7 +30,7 @@ import java.util.List;
  */
 @RestController
 @Tag(name = "图片接口")
-@RequestMapping(value = "/images")
+@RequestMapping(value = "/api/v1/images")
 public class ImageController {
 
     @Autowired

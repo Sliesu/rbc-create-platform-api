@@ -48,7 +48,7 @@ public class ImageProcessingInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 检查请求是否包含图像上传路径
-        if (request.getRequestURI().contains("/images/upload")) {
+        if (request.getRequestURI().contains("/api/v1/images/upload")) {
             // 从请求头中获取授权Token
             String token = request.getHeader("Authorization");
             // 验证Token是否有效

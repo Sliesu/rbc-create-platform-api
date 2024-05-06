@@ -47,9 +47,9 @@ public class SpringMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/swagger-ui.html", "/doc.html", "/webjars/**",
                         "/swagger-resources/**", "/v2/api-docs", "/v2/api-docs/**",
                         "/swagger-ui/**", "/configuration/ui", "/configuration/security",
-                        "/api/v1/user/login/**", "/api/v1/sms/**", "/api/v1/special/**");
+                        "/api/v1/user/login/**", "/api/v1/sms/**", "/api/v1/special/**","/api/v1/images/**");
         registry.addInterceptor(imageProcessingInterceptor)
-                .addPathPatterns("/images/**");
+                .addPathPatterns("/api/v1/images/**");
     }
 
     // 静态资源映射，包括favicon.ico
