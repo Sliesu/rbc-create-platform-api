@@ -7,6 +7,11 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  # 配置Quartz定时调度
+  quartz:
+    job-store-type: JDBC #数据库存储quartz任务配置
+    jdbc:
+      initialize-schema: NEVER #自动初始化表结构，第一次启动的时候这里写always
 # 配置Spring MVC静态资源
   mvc:
     static-path-pattern: /static/**

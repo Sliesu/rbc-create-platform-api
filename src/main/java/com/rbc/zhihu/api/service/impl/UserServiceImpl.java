@@ -2,6 +2,7 @@ package com.rbc.zhihu.api.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rbc.zhihu.api.entity.DefaultAvatar;
 import com.rbc.zhihu.api.entity.User;
 import com.rbc.zhihu.api.entity.dto.UserLoginDto;
@@ -24,7 +25,7 @@ import java.util.UUID;
  * @author DingYihang
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements UserService {
 
     @Resource
     private UserMapper userMapper;
